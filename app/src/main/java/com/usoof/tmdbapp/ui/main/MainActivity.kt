@@ -1,7 +1,8 @@
-package com.usoof.tmdbapp
+package com.usoof.tmdbapp.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.usoof.tmdbapp.R
 
 class MainActivity : AppCompatActivity() {
 
