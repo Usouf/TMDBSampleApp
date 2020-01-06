@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TMDB App</string>
+
+    <string name="network_connection_error">Internet connection lost, please retry again</string>
 </resources>
