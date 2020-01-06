@@ -6,6 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.di.component.ActivityComponent
 import com.usoof.tmdbapp.di.component.DaggerActivityComponent
 import com.usoof.tmdbapp.di.module.ActivityModule
@@ -40,6 +41,7 @@ abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
     private fun buildActivityComponent() = DaggerActivityComponent
         .builder()
         .activityModule(ActivityModule(this))
+        .applicationComponent((application as TMDBApp).applicationComponent)
         .build()
 
     @LayoutRes

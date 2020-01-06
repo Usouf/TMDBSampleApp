@@ -1,15 +1,33 @@
 package com.usoof.tmdbapp.di.module
 
+import android.app.Application
+import android.content.Context
+import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
+import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.usoof.tmdbapp.TMDBApp
+import com.usoof.tmdbapp.utils.network.NetworkHelper
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Singleton
 
 @Module
 class ApplicationModule(private val application: TMDBApp) {
 
     @Provides
-    fun provideApplication() = application
+    @Singleton
+    fun provideApplication(): Application = application
 
     @Provides
-    fun provideApplicationContext() = application
+    @Singleton
+    fun provideContext(): Context = application
+
+    @Provides
+    fun provideSchedulerProvider(): SchedulerProvider = RxSchedulerProvider()
+
+    @Provides
+    fun provideNetworkHelper(): NetworkHelper = NetworkHelper(application)
+
+    @Provides
+    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 }
