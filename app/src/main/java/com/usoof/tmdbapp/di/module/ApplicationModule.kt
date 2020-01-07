@@ -2,10 +2,10 @@ package com.usoof.tmdbapp.di.module
 
 import android.app.Application
 import android.content.Context
-import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
-import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.utils.network.NetworkHelper
+import com.usoof.tmdbapp.utils.rx.RxSchedulerProvider
+import com.usoof.tmdbapp.utils.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

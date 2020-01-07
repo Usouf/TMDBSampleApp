@@ -1,4 +1,4 @@
-package com.mindorks.bootcamp.instagram.utils.common
+package com.usoof.tmdbapp.utils.common
 
 enum class Status {
     SUCCESS,

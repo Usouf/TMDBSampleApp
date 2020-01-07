@@ -1,11 +1,11 @@
 package com.usoof.tmdbapp.di.module
 
 import androidx.lifecycle.ViewModelProviders
-import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.usoof.tmdbapp.ui.base.BaseActivity
 import com.usoof.tmdbapp.ui.main.MainViewModel
 import com.usoof.tmdbapp.utils.ViewModelProviderFactory
 import com.usoof.tmdbapp.utils.network.NetworkHelper
+import com.usoof.tmdbapp.utils.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

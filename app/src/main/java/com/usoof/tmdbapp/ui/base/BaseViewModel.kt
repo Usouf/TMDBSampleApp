@@ -2,10 +2,10 @@ package com.usoof.tmdbapp.ui.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mindorks.bootcamp.instagram.utils.common.Resource
-import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.usoof.tmdbapp.R
+import com.usoof.tmdbapp.utils.common.Resource
 import com.usoof.tmdbapp.utils.network.NetworkHelper
+import com.usoof.tmdbapp.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseViewModel(

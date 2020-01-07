@@ -1,4 +1,4 @@
-package com.mindorks.bootcamp.instagram.utils.common
+package com.usoof.tmdbapp.utils.common
 
 data class Resource<out T> private constructor(val status: Status, val data: T?) {
 

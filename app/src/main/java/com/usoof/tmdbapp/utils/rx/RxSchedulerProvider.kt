@@ -1,4 +1,4 @@
-package com.mindorks.bootcamp.instagram.utils.rx
+package com.usoof.tmdbapp.utils.rx
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

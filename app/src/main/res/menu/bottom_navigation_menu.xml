@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/itemMovies"
+          android:title="@string/movies_title"
+          android:titleCondensed="@string/movies_title"
+          android:icon="@drawable/ic_movie"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/itemSearch"
+          android:title="@string/search_title"
+          android:titleCondensed="@string/search_title"
+          android:icon="@drawable/ic_search"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/itemTv"
+          android:title="@string/tv_title"
+          android:titleCondensed="@string/tv_title"
+          android:icon="@drawable/ic_tv"
+          app:showAsAction="always"/>
+</menu>

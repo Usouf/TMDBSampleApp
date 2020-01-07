@@ -1,9 +1,9 @@
 package com.usoof.tmdbapp.di.component
 
-import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.di.module.ApplicationModule
 import com.usoof.tmdbapp.utils.network.NetworkHelper
+import com.usoof.tmdbapp.utils.rx.SchedulerProvider
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton

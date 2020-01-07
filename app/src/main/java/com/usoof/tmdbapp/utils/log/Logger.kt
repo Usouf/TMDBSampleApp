@@ -1,4 +1,4 @@
-package com.mindorks.bootcamp.instagram.utils.log
+package com.usoof.tmdbapp.utils.log
 
 import com.usoof.tmdbapp.BuildConfig
 import timber.log.Timber
