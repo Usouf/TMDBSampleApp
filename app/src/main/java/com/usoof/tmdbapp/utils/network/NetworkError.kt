@@ -7,13 +7,14 @@ data class NetworkError(
 
     @Expose
     @SerializedName("status_code")
-    val status_code: Int,
+    val status_code: Int = -1,
 
     @Expose
-    @SerializedName("status_message")
-    val status_message: String,
+    @SerializedName("message")
+    val message: String = "Something went wrong",
 
     val success: Boolean = false
+
 
 )
 //Invalid API key: You must be granted a valid key.

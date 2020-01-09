@@ -88,4 +88,15 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(dataList[position])
     }
+
+    fun appendData(data: List<T>) {
+        val oldCount = itemCount
+        dataList.addAll(data)
+        val currentCount = itemCount
+        if (oldCount == 0 && currentCount > 0) {
+            notifyDataSetChanged()
+        } else if (oldCount > 0 && currentCount > oldCount) {
+            notifyItemRangeChanged(oldCount -1, currentCount - oldCount)
+        }
+    }
 }

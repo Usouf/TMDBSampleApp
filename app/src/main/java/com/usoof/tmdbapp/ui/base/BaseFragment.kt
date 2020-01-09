@@ -13,6 +13,7 @@ import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.di.component.DaggerFragmentComponent
 import com.usoof.tmdbapp.di.component.FragmentComponent
 import com.usoof.tmdbapp.di.module.FragmentModule
+import com.usoof.tmdbapp.utils.display.Toaster
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
@@ -45,7 +46,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         })
     }
 
-    fun showMessage(message: String) = context?.let { Toast.makeText(it, message, Toast.LENGTH_SHORT).show() }
+    fun showMessage(message: String) = context?.let { Toaster.show(it, message) }
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
 

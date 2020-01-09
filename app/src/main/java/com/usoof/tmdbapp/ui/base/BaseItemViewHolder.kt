@@ -15,6 +15,7 @@ import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.di.component.DaggerViewHolderComponent
 import com.usoof.tmdbapp.di.component.ViewHolderComponent
 import com.usoof.tmdbapp.di.module.ViewHolderModule
+import com.usoof.tmdbapp.utils.display.Toaster
 import javax.inject.Inject
 
 abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
@@ -22,6 +23,10 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
 ), LifecycleOwner {
+
+    init {
+        onCreate()
+    }
 
     @Inject
     lateinit var viewModel: VM
@@ -72,7 +77,7 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
     }
 
     protected fun showMessage(message: String) =
-        Toast.makeText(itemView.context, message, Toast.LENGTH_SHORT).show()
+        Toaster.show(itemView.context, message)
 
     protected fun showMessage(@StringRes resId: Int) =
         showMessage(itemView.context.getString(resId))

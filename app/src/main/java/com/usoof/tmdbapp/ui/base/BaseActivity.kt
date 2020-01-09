@@ -10,6 +10,7 @@ import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.di.component.ActivityComponent
 import com.usoof.tmdbapp.di.component.DaggerActivityComponent
 import com.usoof.tmdbapp.di.module.ActivityModule
+import com.usoof.tmdbapp.utils.display.Toaster
 import javax.inject.Inject
 
 abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
@@ -35,7 +36,7 @@ abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
         })
     }
 
-    fun showMessage(message: String) = Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    fun showMessage(message: String) = Toaster.show(this, message)
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
     private fun buildActivityComponent() = DaggerActivityComponent
