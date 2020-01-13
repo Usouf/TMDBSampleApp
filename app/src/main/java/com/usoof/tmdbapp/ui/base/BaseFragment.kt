@@ -25,6 +25,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         injectDependencies(buildFragmentComponent())
         super.onCreate(savedInstanceState)
         setupObservers()
+        viewModel.onCreate()
     }
 
     private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent
@@ -53,6 +54,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView(view)
+        viewModel.onCreate()
     }
 
     @LayoutRes

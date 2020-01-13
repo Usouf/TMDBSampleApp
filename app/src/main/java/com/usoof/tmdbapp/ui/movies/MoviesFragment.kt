@@ -48,6 +48,10 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
                 moviesAdapter.appendData(this)
             }
         })
+
+        viewModel.moviesLoading.observe(this, Observer {
+            Logger.d("LOADING", "$it")
+        })
     }
 
     override fun setupView(view: View) {
