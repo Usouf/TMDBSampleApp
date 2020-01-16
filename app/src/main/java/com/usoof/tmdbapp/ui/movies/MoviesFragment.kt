@@ -2,12 +2,17 @@ package com.usoof.tmdbapp.ui.movies
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.usoof.tmdbapp.R
+import com.usoof.tmdbapp.di.HorizontalLinearLayoutManager
 import com.usoof.tmdbapp.di.component.FragmentComponent
 import com.usoof.tmdbapp.ui.base.BaseFragment
+import com.usoof.tmdbapp.ui.movies.genre_recycler.GenreAdapter
 import com.usoof.tmdbapp.ui.movies.movies_recycler.MoviesAdapter
 import com.usoof.tmdbapp.utils.log.Logger
 import kotlinx.android.synthetic.main.fragment_movies.*
@@ -19,7 +24,11 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
     lateinit var moviesAdapter: MoviesAdapter
 
     @Inject
+    lateinit var genreAdapter: GenreAdapter
+
+    @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
+
 
     companion object {
 
@@ -41,7 +50,10 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
         viewModel.genreList.observe(this, Observer {
-            it.data?.run { Logger.d(TAG, it.toString()) }
+            it.data?.run {
+                Logger.d(TAG, it.toString())
+                genreAdapter.appendData(this)
+            }
         })
 
         viewModel.moviesList.observe(this, Observer {
@@ -51,7 +63,11 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
         })
 
         viewModel.moviesLoading.observe(this, Observer {
-            Logger.d("LOADING", "$it")
+            if (it) {
+                progressBar.visibility = VISIBLE
+            } else {
+                progressBar.visibility = INVISIBLE
+            }
         })
     }
 
@@ -62,7 +78,23 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
         rv_movies.apply {
             layoutManager = linearLayoutManager
             adapter = moviesAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    layoutManager?.run {
+                        if (this is LinearLayoutManager
+                            && itemCount > 0
+                            && itemCount == findLastVisibleItemPosition() + 1
+                        ) viewModel.onLoadMore()
+                    }
+                }
+            })
         }
+
+        rv_genre.apply {
+            adapter = genreAdapter
+        }
+
 
     }
 

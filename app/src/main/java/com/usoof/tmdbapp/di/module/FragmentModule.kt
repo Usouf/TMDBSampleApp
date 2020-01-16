@@ -3,8 +3,10 @@ package com.usoof.tmdbapp.di.module
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.usoof.tmdbapp.data.repository.MoviesRepository
+import com.usoof.tmdbapp.di.HorizontalLinearLayoutManager
 import com.usoof.tmdbapp.ui.base.BaseFragment
 import com.usoof.tmdbapp.ui.movies.MoviesViewModel
+import com.usoof.tmdbapp.ui.movies.genre_recycler.GenreAdapter
 import com.usoof.tmdbapp.ui.movies.movies_recycler.MoviesAdapter
 import com.usoof.tmdbapp.ui.search.SearchViewModel
 import com.usoof.tmdbapp.ui.tv.TvViewModel
@@ -27,14 +29,28 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         moviesRepository: MoviesRepository
     ): MoviesViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(MoviesViewModel::class) {
-            MoviesViewModel(schedulerProvider, compositeDisposable, networkHelper, moviesRepository, PublishProcessor.create())
+            MoviesViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                moviesRepository,
+                PublishProcessor.create()
+            )
         }).get(MoviesViewModel::class.java)
 
     @Provides
     fun provideMoviesAdapter(): MoviesAdapter = MoviesAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
+    fun provideGenreAdapter(): GenreAdapter = GenreAdapter(fragment.lifecycle, ArrayList())
+
+    @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(fragment.context)
+
+    @Provides
+    @HorizontalLinearLayoutManager
+    fun provideHorizontalLinearLayoutManager(): LinearLayoutManager =
+        LinearLayoutManager(fragment.context, LinearLayoutManager.HORIZONTAL, false)
 
     @Provides
     fun provideTvViewModel(
@@ -42,7 +58,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper
     ): TvViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(TvViewModel::class){
+        fragment, ViewModelProviderFactory(TvViewModel::class) {
             TvViewModel(schedulerProvider, compositeDisposable, networkHelper)
         }).get(TvViewModel::class.java)
 
@@ -52,7 +68,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper
     ): SearchViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(SearchViewModel::class){
+        fragment, ViewModelProviderFactory(SearchViewModel::class) {
             SearchViewModel(schedulerProvider, compositeDisposable, networkHelper)
         }).get(SearchViewModel::class.java)
 

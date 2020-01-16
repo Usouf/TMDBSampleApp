@@ -32,11 +32,13 @@ class MoviesViewModel(
 
     val moviesLoading = MutableLiveData<Boolean>()
 
+    var handled = false
+
     var pageNumber: Int = 0
 
     override fun onCreate() {
         loadMoreMovies()
-//        getGenre()
+        getGenre()
     }
 
     init {
@@ -70,18 +72,21 @@ class MoviesViewModel(
     }
 
     fun getGenre() {
-        compositeDisposable.add(
-            moviesRepository.fetchGenres()
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
-                        genreList.postValue(Resource.success(it))
-                    },
-                    {
-                        handleNetworkError(it)
-                    }
-                )
-        )
+        if (!handled) {
+            compositeDisposable.add(
+                moviesRepository.fetchGenres()
+                    .subscribeOn(schedulerProvider.io())
+                    .subscribe(
+                        {
+                            genreList.postValue(Resource.success(it))
+                        },
+                        {
+                            handleNetworkError(it)
+                        }
+                    )
+            )
+            handled = true
+        }
     }
 
     private fun loadMoreMovies() {
