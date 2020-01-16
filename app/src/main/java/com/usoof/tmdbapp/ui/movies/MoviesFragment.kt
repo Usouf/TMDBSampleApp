@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.usoof.tmdbapp.R
 import com.usoof.tmdbapp.di.component.FragmentComponent
 import com.usoof.tmdbapp.ui.base.BaseFragment
@@ -55,6 +56,8 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
     }
 
     override fun setupView(view: View) {
+
+        LinearSnapHelper().attachToRecyclerView(rv_movies)
 
         rv_movies.apply {
             layoutManager = linearLayoutManager
