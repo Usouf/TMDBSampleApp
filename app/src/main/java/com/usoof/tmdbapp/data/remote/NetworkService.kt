@@ -22,6 +22,7 @@ interface NetworkService {
         @Query("sort_by") sortBy: String,
         @Query("include_adult") adult: Boolean,
         @Query("page") page: Int,
+        @Query("with_genres") genre: String?,
         @Query(Networking.QUERY_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<DiscoverResponse>
 

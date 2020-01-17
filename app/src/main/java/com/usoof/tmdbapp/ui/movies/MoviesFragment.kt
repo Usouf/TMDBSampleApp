@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.usoof.tmdbapp.R
+import com.usoof.tmdbapp.data.model.DiscoverMovies
+import com.usoof.tmdbapp.data.model.Genre
 import com.usoof.tmdbapp.di.HorizontalLinearLayoutManager
 import com.usoof.tmdbapp.di.component.FragmentComponent
 import com.usoof.tmdbapp.ui.base.BaseFragment
@@ -18,17 +20,7 @@ import com.usoof.tmdbapp.utils.log.Logger
 import kotlinx.android.synthetic.main.fragment_movies.*
 import javax.inject.Inject
 
-class MoviesFragment : BaseFragment<MoviesViewModel>() {
-
-    @Inject
-    lateinit var moviesAdapter: MoviesAdapter
-
-    @Inject
-    lateinit var genreAdapter: GenreAdapter
-
-    @Inject
-    lateinit var linearLayoutManager: LinearLayoutManager
-
+class MoviesFragment : BaseFragment<MoviesViewModel>(), RecyclerItemClickListener.OnRecyclerClickListener {
 
     companion object {
 
@@ -42,6 +34,18 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
         }
     }
 
+    @Inject
+    lateinit var moviesAdapter: MoviesAdapter
+
+    @Inject
+    lateinit var genreAdapter: GenreAdapter
+
+    @Inject
+    lateinit var linearLayoutManager: LinearLayoutManager
+
+    private var moviesList = ArrayList<DiscoverMovies>()
+    private var genreList = ArrayList<Genre>()
+
     override fun provideLayoutId(): Int = R.layout.fragment_movies
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) =
@@ -52,12 +56,14 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
         viewModel.genreList.observe(this, Observer {
             it.data?.run {
                 Logger.d(TAG, it.toString())
+                genreList = this as ArrayList<Genre>
                 genreAdapter.appendData(this)
             }
         })
 
         viewModel.moviesList.observe(this, Observer {
             it.data?.run {
+                moviesList.addAll( this)
                 moviesAdapter.appendData(this)
             }
         })
@@ -96,9 +102,15 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
 
         rv_genre.apply {
             adapter = genreAdapter
+            addOnItemTouchListener(RecyclerItemClickListener(this@MoviesFragment.context!!, this, this@MoviesFragment))
         }
 
+    }
 
+    override fun onItemClick(view: View, position: Int) {
+        Logger.d(TAG, "Item #$position is clicked")
+        moviesAdapter.clearData()
+        viewModel.loadDifferentGenre(genreList[position].id.toString())
     }
 
 }

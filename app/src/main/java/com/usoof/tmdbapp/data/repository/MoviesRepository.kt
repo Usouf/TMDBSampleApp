@@ -16,13 +16,14 @@ class MoviesRepository @Inject constructor(
         networkService.doGenreCall(Constants.DEFAULT_LANG)
             .map { it.genres }
 
-    fun fetchDiscoverMovies(page: Int): Single<List<DiscoverMovies>> {
+    fun fetchDiscoverMovies(page: Int, genre: String?): Single<List<DiscoverMovies>> {
         Logger.d("Movie Repo", "Fetching data")
         return networkService.doDiscoverMoviesCall(
             Constants.DEFAULT_LANG,
             Constants.DEFAULT_SORT,
             Constants.DEFAULT_ADULT,
-            page
+            page,
+            genre
         ).map {
             it.results
         }

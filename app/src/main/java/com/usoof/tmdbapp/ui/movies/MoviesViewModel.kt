@@ -18,7 +18,7 @@ class MoviesViewModel(
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
     private val moviesRepository: MoviesRepository,
-    private val paginator: PublishProcessor<Int?>
+    private val paginator: PublishProcessor<Pair<Int,String?>>
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     companion object {
@@ -32,8 +32,10 @@ class MoviesViewModel(
     val moviesLoading = MutableLiveData<Boolean>()
 
     private var handled = false
+    private var handledMovie = false
 
     private var pageNumber: Int = 0
+    private var genre: String? = null
 
     override fun onCreate() {
         loadMoreMovies()
@@ -50,9 +52,9 @@ class MoviesViewModel(
                     Logger.d(TAG, "doOnNext: $it")
                     moviesLoading.postValue(true)
                 }
-                .concatMapSingle { pages ->
+                .concatMapSingle { params ->
                     return@concatMapSingle moviesRepository
-                        .fetchDiscoverMovies(pages)
+                        .fetchDiscoverMovies(params.first, params.second)
                         .subscribeOn(Schedulers.io())
                         .doOnError { handleNetworkError(it) }
 
@@ -90,15 +92,29 @@ class MoviesViewModel(
 
     private fun loadMoreMovies() {
         Logger.d(TAG, "loadMoreMovies()")
-        pageUp()
-        if (checkInternetConnectionWithMessage()) paginator.onNext(pageNumber)
+        if (!handledMovie) {
+            pageUp()
+            if (checkInternetConnectionWithMessage()) paginator.onNext(Pair(pageNumber, genre))
+            handledMovie = true
+        }
     }
 
     fun onLoadMore() {
-        if (moviesLoading.value !== null && moviesLoading.value == false) loadMoreMovies()
+        if (moviesLoading.value !== null && moviesLoading.value == false) {
+            handledMovie = false
+            loadMoreMovies()
+        }
     }
 
     private fun pageUp() {
         pageNumber++
+    }
+
+    fun loadDifferentGenre(genre: String) {
+        Logger.d(TAG, "genre selected: $genre")
+        pageNumber = 0
+        this.genre = genre
+        handledMovie = false
+        loadMoreMovies()
     }
 }
