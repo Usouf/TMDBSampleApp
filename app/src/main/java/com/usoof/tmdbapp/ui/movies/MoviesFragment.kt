@@ -69,6 +69,7 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
                 progressBar.visibility = INVISIBLE
             }
         })
+
     }
 
     override fun setupView(view: View) {
@@ -90,6 +91,8 @@ class MoviesFragment : BaseFragment<MoviesViewModel>() {
                 }
             })
         }
+
+        LinearSnapHelper().attachToRecyclerView(rv_genre)
 
         rv_genre.apply {
             adapter = genreAdapter

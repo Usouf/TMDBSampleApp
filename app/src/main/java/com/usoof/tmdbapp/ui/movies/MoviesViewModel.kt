@@ -1,6 +1,5 @@
 package com.usoof.tmdbapp.ui.movies
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.usoof.tmdbapp.data.model.DiscoverMovies
 import com.usoof.tmdbapp.data.model.Genre
@@ -32,9 +31,9 @@ class MoviesViewModel(
 
     val moviesLoading = MutableLiveData<Boolean>()
 
-    var handled = false
+    private var handled = false
 
-    var pageNumber: Int = 0
+    private var pageNumber: Int = 0
 
     override fun onCreate() {
         loadMoreMovies()
@@ -71,7 +70,7 @@ class MoviesViewModel(
         Logger.d(TAG, "End init")
     }
 
-    fun getGenre() {
+    private fun getGenre() {
         if (!handled) {
             compositeDisposable.add(
                 moviesRepository.fetchGenres()
@@ -99,7 +98,7 @@ class MoviesViewModel(
         if (moviesLoading.value !== null && moviesLoading.value == false) loadMoreMovies()
     }
 
-    fun pageUp() {
+    private fun pageUp() {
         pageNumber++
     }
 }
