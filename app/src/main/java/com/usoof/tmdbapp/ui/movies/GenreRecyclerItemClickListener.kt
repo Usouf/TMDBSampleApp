@@ -7,10 +7,10 @@ import android.view.View
 import androidx.core.view.GestureDetectorCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerItemClickListener(
+class GenreRecyclerItemClickListener(
     context: Context,
     private val recyclerView: RecyclerView,
-    private val listener: OnRecyclerClickListener
+    private val listener: OnGenreRecyclerClickListener
 ) : RecyclerView.SimpleOnItemTouchListener() {
 
     var gestureDetectorCompat: GestureDetectorCompat
@@ -20,7 +20,7 @@ class RecyclerItemClickListener(
             override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
                 val childView = recyclerView.findChildViewUnder(e!!.x, e.y)
                 if (childView != null) {
-                    listener.onItemClick(childView, recyclerView.getChildAdapterPosition(childView))
+                    listener.onGenreItemClick(childView, recyclerView.getChildAdapterPosition(childView))
                 }
                 return true
             }
@@ -29,8 +29,8 @@ class RecyclerItemClickListener(
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean = gestureDetectorCompat.onTouchEvent(e)
 
-    interface OnRecyclerClickListener {
-        fun onItemClick(view: View, position: Int)
+    interface OnGenreRecyclerClickListener {
+        fun onGenreItemClick(view: View, position: Int)
     }
 
 }

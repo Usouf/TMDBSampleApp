@@ -1,16 +1,14 @@
 package com.usoof.tmdbapp.ui.movies.genre_recycler
 
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import com.usoof.tmdbapp.R
 import com.usoof.tmdbapp.data.model.Genre
 import com.usoof.tmdbapp.di.component.ViewHolderComponent
 import com.usoof.tmdbapp.ui.base.BaseItemViewHolder
+import com.usoof.tmdbapp.utils.display.Toaster
 import kotlinx.android.synthetic.main.item_view_genres.view.*
-import java.util.*
 
 class GenreItemViewHolder(
     parent: ViewGroup

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -11,16 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.usoof.tmdbapp.R
 import com.usoof.tmdbapp.data.model.DiscoverMovies
 import com.usoof.tmdbapp.data.model.Genre
-import com.usoof.tmdbapp.di.HorizontalLinearLayoutManager
 import com.usoof.tmdbapp.di.component.FragmentComponent
 import com.usoof.tmdbapp.ui.base.BaseFragment
 import com.usoof.tmdbapp.ui.movies.genre_recycler.GenreAdapter
 import com.usoof.tmdbapp.ui.movies.movies_recycler.MoviesAdapter
+import com.usoof.tmdbapp.utils.display.Toaster
 import com.usoof.tmdbapp.utils.log.Logger
 import kotlinx.android.synthetic.main.fragment_movies.*
 import javax.inject.Inject
 
-class MoviesFragment : BaseFragment<MoviesViewModel>(), RecyclerItemClickListener.OnRecyclerClickListener {
+class MoviesFragment : BaseFragment<MoviesViewModel>(),
+    GenreRecyclerItemClickListener.OnGenreRecyclerClickListener,
+    MovieRecyclerItemClickListener.OnMovieRecyclerClickListener {
 
     companion object {
 
@@ -42,6 +45,8 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), RecyclerItemClickListene
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
+
+    private var currentGenre: String? = null
 
     private var moviesList = ArrayList<DiscoverMovies>()
     private var genreList = ArrayList<Genre>()
@@ -85,6 +90,7 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), RecyclerItemClickListene
         rv_movies.apply {
             layoutManager = linearLayoutManager
             adapter = moviesAdapter
+            addOnItemTouchListener(MovieRecyclerItemClickListener(this@MoviesFragment.context!!, this, this@MoviesFragment))
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -102,15 +108,22 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(), RecyclerItemClickListene
 
         rv_genre.apply {
             adapter = genreAdapter
-            addOnItemTouchListener(RecyclerItemClickListener(this@MoviesFragment.context!!, this, this@MoviesFragment))
+            addOnItemTouchListener(GenreRecyclerItemClickListener(this@MoviesFragment.context!!, this, this@MoviesFragment))
         }
 
     }
 
-    override fun onItemClick(view: View, position: Int) {
+    override fun onGenreItemClick(view: View, position: Int) {
         Logger.d(TAG, "Item #$position is clicked")
-        moviesAdapter.clearData()
-        viewModel.loadDifferentGenre(genreList[position].id.toString())
+        if (currentGenre === null || !currentGenre.equals(genreList[position].id.toString())) {
+            moviesAdapter.clearData()
+            currentGenre = genreList[position].id.toString()
+            viewModel.loadDifferentGenre(genreList[position].id.toString())
+        }
     }
 
+    override fun onMovieItemClick(view: View, position: Int) {
+        Logger.d(TAG, "item position #$position")
+        Toaster.show(context!!, "Item #$position clicked")
+    }
 }

@@ -6,20 +6,16 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.usoof.tmdbapp.R
 
 object Toaster {
     fun show(context: Context, text: CharSequence) {
-        val toast = android.widget.Toast.makeText(context, text, android.widget.Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            toast.view.background.setColorFilter(
-                BlendModeColorFilter(
-                    R.color.white,
-                    BlendMode.SRC_ATOP
-                )
-            )
+            toast.view.background.colorFilter = BlendModeColorFilter(R.color.white, BlendMode.SRC_ATOP)
         } else {
             toast.view.background.setColorFilter(
                 ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN
