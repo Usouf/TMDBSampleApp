@@ -16,3 +16,12 @@ The project uses many libraries that brings ease to developers:
 * Lifecycle
 * Material Design
 * Timber
+
+### Work in progress
+- [ ] Detail Screen
+- [ ] Try data binding library
+- [ ] Search feature
+- [ ] TV list
+- [ ] Unit Testing
+- [ ] Improve UI
+- [ ] Save Movie
