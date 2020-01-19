@@ -1,6 +1,7 @@
 package com.usoof.tmdbapp.ui.movies.movies_recycler
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.usoof.tmdbapp.data.model.DiscoverMovies
 import com.usoof.tmdbapp.ui.base.BaseItemViewModel
@@ -26,6 +27,11 @@ class MoviesItemViewModel @Inject constructor(
     val voteAverage: LiveData<Double> = Transformations.map(data) { it.voteAverage }
     val posterPath: LiveData<String> = Transformations.map(data) { it.posterPath }
 
+    val launchDetail = MutableLiveData<DiscoverMovies>()
+
+    fun launchDetailActivity() {
+        launchDetail.postValue(data.value)
+    }
 
     override fun onCreate() {
         Logger.d(TAG, "onCreate called")

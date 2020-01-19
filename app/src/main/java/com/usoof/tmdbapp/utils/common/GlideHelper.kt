@@ -1,15 +1,12 @@
 package com.usoof.tmdbapp.utils.common
 
-import android.net.Uri
-import java.net.URL
-
 object GlideHelper {
 
-    fun getImageUrl(endpoint: String): String {
+    fun getPosterUrl(endpoint: String): String =
+        "${Constants.IMAGE_BASE_URL}${Constants.DEFAULT_POSTER_SIZE}$endpoint"
 
-        val imageUrl = "${Constants.IMAGE_BASE_URL}${Constants.DEFAULT_POSTER_SIZE}$endpoint"
 
-        return imageUrl
-    }
+    fun getBackdropUrl(endpoint: String): String =
+        "${Constants.IMAGE_BASE_URL}${Constants.DEFAULT_BACKDROP_SIZE}$endpoint"
 
 }

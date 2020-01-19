@@ -1,8 +1,11 @@
 package com.usoof.tmdbapp.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class DiscoverMovies(
 
     @Expose
@@ -26,7 +29,7 @@ data class DiscoverMovies(
     val voteCount: Int,
 
     @Expose
-    @SerializedName("release_data")
+    @SerializedName("release_date")
     val releaseDate: String,
 
     @Expose
@@ -61,5 +64,4 @@ data class DiscoverMovies(
     @SerializedName("video")
     val video: Boolean
 
-)
-
+) : Parcelable

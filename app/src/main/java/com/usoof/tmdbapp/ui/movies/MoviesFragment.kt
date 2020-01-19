@@ -16,14 +16,14 @@ import com.usoof.tmdbapp.di.component.FragmentComponent
 import com.usoof.tmdbapp.ui.base.BaseFragment
 import com.usoof.tmdbapp.ui.movies.genre_recycler.GenreAdapter
 import com.usoof.tmdbapp.ui.movies.movies_recycler.MoviesAdapter
+import com.usoof.tmdbapp.utils.common.FindGenre
 import com.usoof.tmdbapp.utils.display.Toaster
 import com.usoof.tmdbapp.utils.log.Logger
 import kotlinx.android.synthetic.main.fragment_movies.*
 import javax.inject.Inject
 
 class MoviesFragment : BaseFragment<MoviesViewModel>(),
-    GenreRecyclerItemClickListener.OnGenreRecyclerClickListener,
-    MovieRecyclerItemClickListener.OnMovieRecyclerClickListener {
+    GenreRecyclerItemClickListener.OnGenreRecyclerClickListener {
 
     companion object {
 
@@ -61,6 +61,7 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(),
         viewModel.genreList.observe(this, Observer {
             it.data?.run {
                 Logger.d(TAG, it.toString())
+                FindGenre.setGenreMap(this)
                 genreList = this as ArrayList<Genre>
                 genreAdapter.appendData(this)
             }
@@ -90,7 +91,6 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(),
         rv_movies.apply {
             layoutManager = linearLayoutManager
             adapter = moviesAdapter
-            addOnItemTouchListener(MovieRecyclerItemClickListener(this@MoviesFragment.context!!, this, this@MoviesFragment))
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -120,10 +120,5 @@ class MoviesFragment : BaseFragment<MoviesViewModel>(),
             currentGenre = genreList[position].id.toString()
             viewModel.loadDifferentGenre(genreList[position].id.toString())
         }
-    }
-
-    override fun onMovieItemClick(view: View, position: Int) {
-        Logger.d(TAG, "item position #$position")
-        Toaster.show(context!!, "Item #$position clicked")
     }
 }
