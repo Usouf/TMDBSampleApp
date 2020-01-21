@@ -1,8 +1,12 @@
 package com.usoof.tmdbapp.ui.movies.movies_recycler
 
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,7 +21,10 @@ import kotlinx.android.synthetic.main.item_view_movies.view.*
 
 class MoviesItemViewHolder(parent: ViewGroup) :
     BaseItemViewHolder<DiscoverMovies, MoviesItemViewModel>(
-        R.layout.item_view_movies, parent
+        (DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.item_view_movies, parent, false
+        ))
     ) {
 
     companion object {
@@ -29,40 +36,18 @@ class MoviesItemViewHolder(parent: ViewGroup) :
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.movieName.observe(this, Observer {
-            itemView.tv_movieTitle.text = it
-        })
-
-        viewModel.overview.observe(this, Observer {
-            itemView.tv_movieOverview.text = it
-        })
-
-        viewModel.voteAverage.observe(this, Observer {
-            itemView.tv_movieVote.text = it.toString()
-        })
-
-        viewModel.posterPath.observe(this, Observer {
-            Glide.with(itemView.iv_moviePoster.context)
-                .load(GlideHelper.getPosterUrl(it))
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_photo))
-                .into(itemView.iv_moviePoster)
-
-//            Logger.d(TAG, "image endpoint: $it")
-        })
 
         viewModel.launchDetail.observe(this, Observer {
-            val i = Intent(itemView.context, MoviesDetailActivity::class.java)
-            Logger.d(TAG, it.toString())
-            i.putExtra("MOVIE", it)
-            itemView.context.startActivity(i)
+            it?.let {
+                val i = Intent(itemView.context, MoviesDetailActivity::class.java)
+                i.putExtra("MOVIE", it)
+                itemView.context.startActivity(i)
+            }
         })
+
     }
 
     override fun setupView(view: View) {
-
-        itemView.cl_item_movie.setOnClickListener {
-            viewModel.launchDetailActivity()
-        }
 
     }
 }

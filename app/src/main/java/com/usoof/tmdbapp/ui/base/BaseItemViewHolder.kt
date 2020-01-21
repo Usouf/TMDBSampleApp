@@ -6,12 +6,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.usoof.tmdbapp.BR
 import com.usoof.tmdbapp.TMDBApp
+import com.usoof.tmdbapp.data.model.DiscoverMovies
+import com.usoof.tmdbapp.data.model.Genre
 import com.usoof.tmdbapp.di.component.DaggerViewHolderComponent
 import com.usoof.tmdbapp.di.component.ViewHolderComponent
 import com.usoof.tmdbapp.di.module.ViewHolderModule
@@ -19,9 +23,9 @@ import com.usoof.tmdbapp.utils.display.Toaster
 import javax.inject.Inject
 
 abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
-    @LayoutRes layoutId: Int, parent: ViewGroup
+    private val binding: ViewDataBinding
 ) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
+    binding.root
 ), LifecycleOwner {
 
     init {
@@ -36,7 +40,15 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
 
     override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
-    open fun bind(data: T) = viewModel.updateData(data)
+    open fun bind(data: T) {
+        binding.setVariable(BR.viewModel, viewModel)
+        if (data is DiscoverMovies) {
+            binding.setVariable(BR.movie, data)
+        } else if (data is Genre) {
+            binding.setVariable(BR.genre, data)
+        }
+        binding.executePendingBindings()
+    }
 
     protected fun onCreate() {
         injectDependencies(buildViewHolderComponent())

@@ -1,11 +1,8 @@
 package com.usoof.tmdbapp.ui.movies.movies_recycler
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.usoof.tmdbapp.data.model.DiscoverMovies
 import com.usoof.tmdbapp.ui.base.BaseItemViewModel
-import com.usoof.tmdbapp.utils.common.GlideHelper
 import com.usoof.tmdbapp.utils.log.Logger
 import com.usoof.tmdbapp.utils.network.NetworkHelper
 import com.usoof.tmdbapp.utils.rx.SchedulerProvider
@@ -22,15 +19,10 @@ class MoviesItemViewModel @Inject constructor(
         const val TAG = "MoviesItemViewModel"
     }
 
-    val movieName: LiveData<String> = Transformations.map(data) { it.name }
-    val overview: LiveData<String> = Transformations.map(data) { it.overview }
-    val voteAverage: LiveData<Double> = Transformations.map(data) { it.voteAverage }
-    val posterPath: LiveData<String> = Transformations.map(data) { it.posterPath }
-
     val launchDetail = MutableLiveData<DiscoverMovies>()
 
-    fun launchDetailActivity() {
-        launchDetail.postValue(data.value)
+    fun launchDetailActivity(movie: DiscoverMovies) {
+        launchDetail.postValue(movie)
     }
 
     override fun onCreate() {
