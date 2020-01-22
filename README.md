@@ -20,7 +20,7 @@ The project uses many libraries that brings ease to developers:
 
 ### Work in progress
 - [x] Detail Screen
-- [ ] Try data binding library
+- [x] Try data binding library
 - [ ] Search feature
 - [ ] TV list
 - [ ] Unit Testing
