@@ -27,9 +27,6 @@ class GenreItemViewHolder(
 
     override fun setupObservers() {
         super.setupObservers()
-//        viewModel.genreName.observe(this, Observer {
-//            itemView.tv_genre.text = it
-//        })
     }
 
     override fun setupView(view: View) {

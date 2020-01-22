@@ -13,7 +13,7 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
 @Module
-class ActivityModule(private val activity: BaseActivity<*>) {
+class ActivityModule(private val activity: BaseActivity<*, *>) {
 
     @Provides
     fun provideMainViewModel(

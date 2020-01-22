@@ -1,10 +1,6 @@
 package com.usoof.tmdbapp.ui.base
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle

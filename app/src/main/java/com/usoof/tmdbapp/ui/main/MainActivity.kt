@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.usoof.tmdbapp.R
+import com.usoof.tmdbapp.databinding.ActivityMainBinding
 import com.usoof.tmdbapp.di.component.ActivityComponent
 import com.usoof.tmdbapp.ui.base.BaseActivity
 import com.usoof.tmdbapp.ui.movies.MoviesFragment
@@ -11,7 +12,7 @@ import com.usoof.tmdbapp.ui.search.SearchFragment
 import com.usoof.tmdbapp.ui.tv.TvFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     companion object {
 
@@ -45,25 +46,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun setupView(savedInstanceState: Bundle?) {
 
-        bottomNavigationView.run {
-            setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.itemMovies -> {
-                        viewModel.onMoviesSelected()
-                        true
-                    }
-                    R.id.itemSearch -> {
-                        viewModel.onSearchSelected()
-                        true
-                    }
-                    R.id.itemTv -> {
-                        viewModel.onTvSelected()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
+        binding.viewModel = viewModel
 
     }
 

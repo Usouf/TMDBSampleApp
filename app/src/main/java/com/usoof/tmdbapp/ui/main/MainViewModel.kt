@@ -1,6 +1,8 @@
 package com.usoof.tmdbapp.ui.main
 
+import android.view.MenuItem
 import androidx.lifecycle.MutableLiveData
+import com.usoof.tmdbapp.R
 import com.usoof.tmdbapp.ui.base.BaseViewModel
 import com.usoof.tmdbapp.utils.common.Event
 import com.usoof.tmdbapp.utils.network.NetworkHelper
@@ -17,20 +19,26 @@ class MainViewModel(
     val searchNavigation = MutableLiveData<Event<Boolean>>()
     val tvNavigation = MutableLiveData<Event<Boolean>>()
 
-    fun onMoviesSelected() {
-        moviesNavigation.postValue(Event(true))
-    }
-
-    fun onSearchSelected() {
-        searchNavigation.postValue(Event(true))
-    }
-
-    fun onTvSelected() {
-        tvNavigation.postValue(Event(true))
-    }
-
     override fun onCreate() {
         moviesNavigation.postValue(Event(true))
     }
+
+    fun onNavigationClick(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.itemMovies -> {
+                moviesNavigation.postValue(Event(true))
+                true
+            }
+            R.id.itemTv -> {
+                tvNavigation.postValue(Event(true))
+                true
+            }
+            R.id.itemSearch -> {
+                searchNavigation.postValue(Event(true))
+                true
+            }
+            else -> false
+        }
+
 
 }

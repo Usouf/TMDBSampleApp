@@ -1,10 +1,11 @@
 package com.usoof.tmdbapp.ui.base
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.usoof.tmdbapp.TMDBApp
 import com.usoof.tmdbapp.di.component.ActivityComponent
@@ -13,15 +14,19 @@ import com.usoof.tmdbapp.di.module.ActivityModule
 import com.usoof.tmdbapp.utils.display.Toaster
 import javax.inject.Inject
 
-abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompatActivity() {
 
     @Inject
     lateinit var viewModel: VM
 
+    lateinit var binding: DB
+        private set
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildActivityComponent())
         super.onCreate(savedInstanceState)
-        setContentView(provideLayoutId())
+        binding =
+            DataBindingUtil.setContentView(this, provideLayoutId())
         setupObservers()
         setupView(savedInstanceState)
         viewModel.onCreate()
