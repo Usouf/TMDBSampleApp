@@ -17,6 +17,7 @@ The project uses many libraries that brings ease to developers:
 * Material Design
 * Timber
 * Palette
+* DataBinding
 
 ### Work in progress
 - [x] Detail Screen
